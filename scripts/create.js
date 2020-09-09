@@ -4,15 +4,8 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 
-
-let userName;
-process.argv.forEach((val, index) => {
-    if (index == 2) {
-        userName = val;
-    }
-});
-
 // assigning variables
+let userName = 'AemieJ';
 let userGithubProfile = `https://github.com/${userName}`;
 let userData = {}; // will contain the entire data of userName, followersCount & listOfFollowers;
 userData['userName'] = userName;
@@ -39,6 +32,7 @@ const createList = async(pageCount, listOfFollowers, flag) => {
         }
     }
     userData['followersList'] = listOfFollowers;
+    return userData;
 }
 
 const fetchFollowers = async() => {
@@ -55,17 +49,18 @@ const fetchFollowers = async() => {
         });
         userData['followersNumber'] = followerCount;
 
-        createList(pageCount, listOfFollowers, flag)
-            .then((res) => {
-                console.log(userData);
-            })
-            .catch((error) => {
-                throw error;
-            });
-
+        let res = await createList(pageCount, listOfFollowers, flag);
+        return res;          
     } catch (error) {
         throw error;
     }
 };
 
-fetchFollowers();
+const fetch = async() => {
+    let res = await fetchFollowers();
+    return res;
+};
+
+module.exports = {
+    fetch: fetch
+};
