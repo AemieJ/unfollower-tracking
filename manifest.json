@@ -1,0 +1,22 @@
+{
+    "name": "Unfollowers tracker for github",
+    "version": "1.0",
+    "description": "Get notified on who unfollows you on github",
+    "permissions": ["cookies", "contextMenus", "storage", "declarativeContent", "activeTab", "tabs"],
+    "browser_action": {
+        "default_popup": "popup.html"
+    },
+    "background": {
+        "scripts": ["scripts/extension/background.js"],
+        "persistent": true
+    },
+    "content_scripts": [{
+        "matches": [
+          "https://*/*",
+          "http://*/*"
+        ],
+        "js": ["scripts/extension/content.js"],
+        "run_at": "document_end"
+      }],
+    "manifest_version": 2
+  }
